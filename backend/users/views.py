@@ -46,7 +46,7 @@ class Login(TokenObtainPairView):
                     "user" : userSerializer.data
                 }
                 return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
-        return JsonResponse(_('failed username or password'), safe=False, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(_('Failed username or password'), safe=False, status=status.HTTP_400_BAD_REQUEST)
         
         
 class Logout(TokenObtainPairView):
@@ -107,7 +107,7 @@ class Register(APIView):
                 # save entry               
                 userSerializer.save()
                 # show object saved 
-                return JsonResponse('userSerializer.data', safe=False, status=status.HTTP_201_CREATED)
+                return JsonResponse(userSerializer.data, safe=False, status=status.HTTP_201_CREATED)
             # show errors because not save  
             return JsonResponse(userSerializer.errors, safe=False, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(_('Passwrds not match'), safe=False, status=status.HTTP_400_BAD_REQUEST)
@@ -162,7 +162,7 @@ class ChangePassword(APIView):
                 # save entry               
                 userSerializer.save()
                 # show object saved 
-                return JsonResponse('userSerializer.data', safe=False, status=status.HTTP_202_ACCEPTED)
+                return JsonResponse(userSerializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
             # show errors because not save  
             return JsonResponse(userSerializer.errors, safe=False, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(errors, safe=False, status=status.HTTP_400_BAD_REQUEST)
