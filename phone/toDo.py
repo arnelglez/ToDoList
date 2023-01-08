@@ -1,17 +1,26 @@
+
+
 from flet import *
+from threading import Thread
+
 import requests
+import time
 
-
+# Constans
 HEIGHT = 590
 WIDTH = 280
+
+#Var
+global ring
+ring = False
+
 
 def main(page:Page):
     
     
     ############################################################################
     ################################## LOGIN ###################################
-        
-    def login_function(e):
+    def login_function():
         username = _login_container.content.controls[1].value
         password = _login_container.content.controls[2].value
         
@@ -27,12 +36,35 @@ def main(page:Page):
             token = r.json()
             _login_container.visible = False
             _todo_container.visible = True
-            _main_container.content.update()
         else:
             _snack_bar.content.value = r.json()
             _snack_bar.open = True
-            _main_container.content.update()
-
+        
+            
+    def ring_shower():
+        page.dialog = _dialog_ring
+        _dialog_ring.open = True
+        page.update()
+        time.sleep(5)
+        _dialog_ring.open = False
+        page.update()
+        
+    def login_click(e):        
+        hiloRing = Thread(target=ring_shower)
+        hiloFunction = Thread(target=login_function)
+        hiloRing.start()
+        hiloFunction.start()
+            
+    _dialog_ring = AlertDialog(
+                content = Container(
+                    height = 50,
+                    padding = padding.only(top=20),
+                    alignment = alignment.center,
+                    content = ProgressRing(
+                    )
+                )
+        )
+    
     _snack_bar = SnackBar(
                     bgcolor = colors.RED,
                     content = Text(
@@ -79,7 +111,7 @@ def main(page:Page):
                     can_reveal_password=True,
                 ),
                 ElevatedButton(
-                    on_click = login_function,
+                    on_click = login_click,
                     bgcolor = colors.BLUE_700,
                     content = Text(
                         value = "Login",
@@ -109,7 +141,6 @@ def main(page:Page):
     _todo_container = Container(
         height =  HEIGHT,
         width = WIDTH,
-        bgcolor = colors.WHITE,
         visible = False,
         content = Column()
     )
