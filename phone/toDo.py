@@ -142,7 +142,8 @@ def main(page:Page):
         height =  HEIGHT,
         width = WIDTH,
         visible = False,
-        content = Column()
+        content = ListView(
+        )
     )
     
 
