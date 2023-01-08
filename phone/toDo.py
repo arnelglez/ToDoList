@@ -11,16 +11,26 @@ HEIGHT = 590
 WIDTH = 280
 
 #Var
-global ring
-ring = False
+global token
+global referesh
+global user
+token = ''
+referesh = ''
+user = {}
 
 
 def main(page:Page):
     
-    
     ############################################################################
-    ################################## LOGIN ###################################
-    def login_function():
+    ################################ FUNCTIONS #################################
+       
+    def login_click(e):     
+        # progress ring show
+        page.dialog = _dialog_ring
+        _dialog_ring.open = True
+        page.update()   
+
+        # login funtion 
         username = _login_container.content.controls[1].value
         password = _login_container.content.controls[2].value
         
@@ -29,31 +39,31 @@ def main(page:Page):
             "username" : username,
             "password" : password
         }
+                
+        _login_container.content.controls[1].value = ''
+        _login_container.content.controls[2].value = ''
 
         r = requests.post(url=url, data=data)
         
         if r.status_code == 200:
-            token = r.json()
+            token = r.json().get('token')
+            referesh = r.json().get('referesh')
+            user = r.json().get('user')
             _login_container.visible = False
             _todo_container.visible = True
         else:
             _snack_bar.content.value = r.json()
             _snack_bar.open = True
         
-            
-    def ring_shower():
-        page.dialog = _dialog_ring
-        _dialog_ring.open = True
-        page.update()
-        time.sleep(5)
+        # progress ring close
         _dialog_ring.open = False
         page.update()
         
-    def login_click(e):        
-        hiloRing = Thread(target=ring_shower)
-        hiloFunction = Thread(target=login_function)
-        hiloRing.start()
-        hiloFunction.start()
+        print(user.get('email'))
+    
+    ############################################################################
+    ################################## LOGIN ###################################
+
             
     _dialog_ring = AlertDialog(
                 content = Container(
