@@ -1,19 +1,17 @@
 from flet import *
 
-from mod.modLogin import eLogin
-from mod.modToDo import eToDo, mToDo
+from mod.modToDo import eToDo,mToDo
 
 from views.Task import Task
+import config
 
 class ToDo(UserControl):
-    
-    def __init__(self, h, w,elogin:eLogin):
         
-        self.eToDo = eToDo()
-        self.mToDo = mToDo(elogin.get_token())
+    def __init__(self, h, w):
+        
+        self.mToDo = mToDo(config._eLogin.get_token())
         self.h = h
         self.w = w
-        self.elogin = elogin
         
         self._container = Container(
                 padding = 8,
@@ -27,24 +25,22 @@ class ToDo(UserControl):
         self._dialog_add = AlertDialog(
                     content = Container(
                         height = 250,
-                        width = 250,
+                        width = 300,
                         alignment = alignment.center,
                         content = Column(
                             alignment = MainAxisAlignment.CENTER,
                             spacing = 25,
                             controls=[
                                 TextField(
-                                    width = 150,
+                                    width = 250,
                                     border="underline",
-                                    text_size = 12,
                                     label = 'Task',                
                                     color = colors.WHITE24,
                                     border_color = colors.WHITE24,
                                 ),
                                 TextField(
-                                    width = 150,
+                                    width = 250,
                                     border="underline",
-                                    text_size = 12,
                                     label = 'Description',                                    
                                     multiline = True,
                                     color = colors.WHITE24,
@@ -55,7 +51,6 @@ class ToDo(UserControl):
                                     bgcolor = colors.BLUE_700,
                                     content = Text(
                                         value = "ADD",
-                                        size = 11,
                                         weight = 'bold',
                                         color = 'white',
                                     ),
@@ -68,7 +63,7 @@ class ToDo(UserControl):
                                         },
                                     ),   
                                     height = 30,
-                                    width = 150,
+                                    width = 250,
                                 )
                             ]
                         )
@@ -88,7 +83,7 @@ class ToDo(UserControl):
         response, etodo = self.mToDo.create_toDo(etodo)
         
         if response == '':
-            self._container.content.controls.append(Task(etodo, self.elogin))
+            self._container.content.controls.append(Task(etodo))
         else:
             e.page.controls[0].content.value = response
             e.page.controls[0].open = True             
@@ -105,13 +100,14 @@ class ToDo(UserControl):
         e.page.update()      
         
     def build(self):
+               
         _button = Column(
             width = self.w,
             alignment = MainAxisAlignment.END,
             horizontal_alignment = 'end',
                 controls = [
                     Container(
-                        padding=padding.only(right=15, bottom=25),
+                        padding=padding.only(right=30, bottom=40),
                         content = FloatingActionButton(
                             icon = icons.ADD,
                             on_click = self.task_click,
@@ -122,18 +118,15 @@ class ToDo(UserControl):
                 ]
             )
         
-        response, taskList = self.mToDo.list_toDo()
-        
+        _, taskList = self.mToDo.list_toDo()        
         
         for etodo in taskList:
-            self._container.content.controls.append(Task(etodo, self.elogin))
+            self._container.content.controls.append(Task(etodo))
             
         return  Container(
-                    expand = True,
                     height = self.h,
                     width = self.w,
                     bgcolor = colors.BLACK,
-                    border_radius=25,
                     content = Stack(
                         controls = [
                             self._container,

@@ -122,7 +122,7 @@ class ChangePassword(APIView):
     
     def put(self, request):
         '''
-        Register new user
+        Reset Password
         '''
         errors = []
         # load headers

@@ -2,13 +2,14 @@
 from flet import *
 
 from views.ToDo import ToDo
-from mod.modLogin import eLogin, mLogin
+from mod.modLogin import mLogin
+
+import config
 
 class Login(UserControl):
     
     def __init__(self, h, w):
         
-        self.eLogin = eLogin()
         self.mLogin = mLogin()
         self.h = h
         self.w = w
@@ -20,7 +21,8 @@ class Login(UserControl):
                     horizontal_alignment = "center",
                     alignment = MainAxisAlignment.CENTER,
                     height = 250,
-                    width = 250,
+                    width = 300,
+                    spacing = 15,
                     controls = [
                         Icon(
                         name = icons.ACCOUNT_CIRCLE_SHARP,  
@@ -28,33 +30,34 @@ class Login(UserControl):
                         color = colors.WHITE24,
                         ),
                         TextField(
-                            width = 200,
-                            height = 30,
+                            width = 250,
+                            height = 40,
                             prefix_icon = icons.ACCOUNT_CIRCLE,
-                            text_size = 12,
                             label = 'Username',
+                            border_width = 2,
                             color = colors.WHITE24,
                             border_color = colors.WHITE24,
                             border_radius = 10,
+                            value = 'aglez', #borrar
                         ),
                         TextField(
-                            width = 200,
-                            height = 30,
+                            width = 250,
+                            height = 40,
                             prefix_icon = icons.KEY,
-                            text_size = 12,
                             label = 'Password',
+                            border_width = 2,
                             color = colors.WHITE24,
                             border_color = colors.WHITE24,
                             border_radius = 10,
                             password = True,
                             can_reveal_password=True,
+                            value = 'Pepe123++', #borrar
                         ),
                         ElevatedButton(
                             on_click = self.login_click,
                             bgcolor = colors.BLUE_700,
                             content = Text(
                                 value = "Login",
-                                size = 11,
                                 weight = 'bold',
                                 color = 'white',
                             ),
@@ -66,8 +69,8 @@ class Login(UserControl):
                                     "": 'white',
                                 },
                             ),   
-                            height = 30,
-                            width = 200,
+                            height = 40,
+                            width = 250,
                         )
                         
                     ]
@@ -87,6 +90,7 @@ class Login(UserControl):
         super().__init__()
         
     def login_click(self, e):
+                
         e.page.dialog = self._dialog_ring
         self._dialog_ring.open = True
         e.page.update()
@@ -97,11 +101,13 @@ class Login(UserControl):
         self._container.content.controls[1].value = ''
         self._container.content.controls[2].value = ''
 
-        response, self.eLogin = self.mLogin.login(username, password)
+        response, config._eLogin = self.mLogin.login(username, password)
+        
         if response == '':
-            e.page.controls.pop()
-            # lista de tareas
-            e.page.controls.append(ToDo(self.h, self.w, self.eLogin))
+            e.page.controls.pop()            
+            e.page.appbar.actions[0].visible = True
+            e.page.controls.append(ToDo(self.h, self.w))
+            
         else:
             e.page.controls[0].content.value = response
             e.page.controls[0].open = True
@@ -113,9 +119,8 @@ class Login(UserControl):
         
     def build(self):
         return  Container(
-                    expand = True,
                     bgcolor = colors.BLACK,
-                    border_radius=25,
+                    height = self.h,
                     content = Stack(
                         controls = [
                             self._container,

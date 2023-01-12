@@ -1,10 +1,11 @@
 from flet import *
 
 from mod.modToDo import eToDo, mToDo
-from ent.entLogin import eLogin
+import config
+
 
 class Task(UserControl):
-    def __init__(self, etodo:eToDo , elogin:eLogin, ):
+    def __init__(self, etodo:eToDo ):
         
                 
         self._task_container = Container(
@@ -14,7 +15,8 @@ class Task(UserControl):
             padding = 10,
             content=Column(
                 controls= [
-                    Container( # this container contain task id
+                    Container( 
+                        # this container contain task id
                         visible = False,
                         content=Text(
                                 value = etodo.get_id(),
@@ -22,13 +24,13 @@ class Task(UserControl):
                     ),
                     Text(
                         value = etodo.get_task(),
-                        size = 13,
+                        size = 15,
                         weight = "bold",
                         text_align = "center",
                     ),
                     Text(
                         value = etodo.get_description(),
-                        size = 11,
+                        size = 12,
                     ),
                     Container(
                         alignment = alignment.center_right,
@@ -57,24 +59,22 @@ class Task(UserControl):
         self._dialog_add = AlertDialog(
                     content = Container(
                         height = 250,
-                        width = 250,
+                        width = 300,
                         alignment = alignment.center,
                         content = Column(
                             alignment = MainAxisAlignment.CENTER,
                             spacing = 25,
                             controls=[
                                 TextField(
-                                    width = 150,
+                                    width = 250,
                                     border="underline",
-                                    text_size = 12,
                                     label = 'Task',                
                                     color = colors.WHITE24,
                                     border_color = colors.WHITE24,
                                 ),
                                 TextField(
-                                    width = 150,
+                                    width = 250,
                                     border="underline",
-                                    text_size = 12,
                                     label = 'Description',                                    
                                     multiline = True,
                                     color = colors.WHITE24,
@@ -85,7 +85,6 @@ class Task(UserControl):
                                     bgcolor = colors.BLUE_700,
                                     content = Text(
                                         value = "Update",
-                                        size = 11,
                                         weight = 'bold',
                                         color = 'white',
                                     ),
@@ -98,15 +97,14 @@ class Task(UserControl):
                                         },
                                     ),   
                                     height = 30,
-                                    width = 150,
+                                    width = 250,
                                 )
                             ]
                         )
                     )
                 )
                 
-        self.mToDo = mToDo(elogin.get_token())
-        self.eLogin = elogin
+        self.mToDo = mToDo(config._eLogin.get_token())
         self.id = self._task_container.content.controls[0].content.value
         super().__init__()
     

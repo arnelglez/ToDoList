@@ -1,6 +1,7 @@
 from ent.entLogin import eLogin
 import requests
 
+
 class mLogin:
     
     def __init__(self):
@@ -39,11 +40,30 @@ class mLogin:
             "refresh" : elogin.get_refresh()
         }
         
-        response = requests(url=url, data=data)
+        response = requests.post(url=url, data=data)
         elogin.get_token(response.json()['access'])
         elogin.get_refresh(response.json()['refresh'])
         
         return elogin
+        
+    def change_password(self, password1, password2, token):
+        headers = {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json",
+                "Connection": "close"
+            }
+        url = self.urlBase + '/change_password/'
+        json = {
+            "password1" : password1,
+            "password2" : password2
+        }
+        
+        response = requests.put(url=url, json=json, headers=headers)
+        
+        if response.status_code == 202:
+            return ''
+        else:
+            return response.json()
         
         
     def logout(self, token):
@@ -54,7 +74,7 @@ class mLogin:
                         "Content-Type": "application/json",
                         "Connection": "close"
                     }
-        response = requests.post(ur=url, headers=headers)
+        response = requests.post(url=url, headers=headers)
         
         if response.status_code == 200:
             return  '' , response.json()
