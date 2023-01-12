@@ -52,8 +52,8 @@ class Task(UserControl):
                     ),
                 ]
             )
-        )        
-        
+        )    
+                
         self._dialog_add = AlertDialog(
                     content = Container(
                         height = 250,
@@ -104,15 +104,7 @@ class Task(UserControl):
                         )
                     )
                 )
-        
-        self._snack_bar = SnackBar(
-                bgcolor = colors.RED,
-                content = Text(
-                    value = "",
-                    color = colors.WHITE,
-                )        
-            )
-        
+                
         self.mToDo = mToDo(elogin.get_token())
         self.eLogin = elogin
         self.id = self._task_container.content.controls[0].content.value
@@ -127,12 +119,11 @@ class Task(UserControl):
         if response == '':
             self._task_container.content.controls[0].content.value = eTodo.get_id()
             self._task_container.content.controls[1].value = eTodo.get_description() 
-            self._task_container.content.controls[2].content.value = eTodo.get_task()
+            self._task_container.content.controls[2].value = eTodo.get_task()
             self._task_container.content.update()
         else:
-            self._snack_bar.content.value = response
-            self._snack_bar.open = True
-            self.update()
+            e.page.controls[0].content.value = response
+            e.page.controls[0].open = True
             
         e.page.update()
     
@@ -146,21 +137,21 @@ class Task(UserControl):
     def update(self, e):
         eTodo = eToDo()
         eTodo.set_id(self.id)
-        eTodo.set_task(self._dialog_add.content.content.controls[0].value)
-        eTodo.set_description(self._dialog_add.content.content.controls[1].value)
+        eTodo.set_task(self._dialog_add.content.content.controls[1].value)
+        eTodo.set_description(self._dialog_add.content.content.controls[0].value)
         
         response, eTodo = self.mToDo.update_toDo(eTodo)
                 
         if response == '':
             self._task_container.content.controls[0].content.value = eTodo.get_id()
             self._task_container.content.controls[1].value = eTodo.get_description() 
-            self._task_container.content.controls[2].content.value = eTodo.get_task()
+            self._task_container.content.controls[2].value = eTodo.get_task()
             self._task_container.content.update()
         else:
-            self._snack_bar.content.value = response
-            self._snack_bar.open = True
-            self.update()
+            e.page.controls[0].content.value = response
+            e.page.controls[0].open = True 
             
+        self._dialog_add.open = False        
         e.page.update()
             
     
@@ -169,17 +160,15 @@ class Task(UserControl):
         response = self.mToDo.delete_toDo(self.id)        
         
         if response == '':
-            e.page.controls[0].controls[0].content.controls[0].content.controls.remove(self)
-            e.page.controls[0].controls[0].content.controls[0].content.update()
+            e.page.controls[1].controls[0].content.controls[0].content.controls.remove(self)
+            e.page.controls[1].controls[0].content.controls[0].content.update()
 
         else:
-            self.snack.content.value = response
-            self.snack.content.open = True
+            e.page.controls[0].content.value = response
+            e.page.controls[0].open = True 
        
         e.page.update()
         
     def build(self):
-        return Container (
-            content = self._task_container
-        )
+        return self._task_container
         

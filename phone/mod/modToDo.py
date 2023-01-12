@@ -50,10 +50,10 @@ class mToDo:
             
     
     def update_toDo(self, toDo:eToDo):
-        url = self.urlBase + str(toDo.get_id()) 
+        url = self.urlBase + str(toDo.get_id())  + '/'
         json = {
-            "task" : toDo.get_task,
-            "description" : toDo.get_description
+            "task" : toDo.get_task(),
+            "description" : toDo.get_description()
         }
         
         response = requests.put(url=url, json=json, headers=self.headers)
@@ -69,7 +69,7 @@ class mToDo:
             return response.json(), etodo
     
     def delete_toDo(self, id):
-        url = self.urlBase + str(id)  
+        url = self.urlBase + str(id) + '/'  
         json = {
             "id" : id,
         }

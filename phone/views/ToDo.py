@@ -22,15 +22,7 @@ class ToDo(UserControl):
                     controls=[
                     ]
                 )
-            )        
-        
-        self._snack_bar = SnackBar(
-                bgcolor = colors.RED,
-                content = Text(
-                    value = "",
-                    color = colors.WHITE,
-                )        
-            )
+            )  
         
         self._dialog_add = AlertDialog(
                     content = Container(
@@ -98,8 +90,8 @@ class ToDo(UserControl):
         if response == '':
             self._container.content.controls.append(Task(etodo, self.elogin))
         else:
-            self._snack_bar.content.value = response
-            self._snack_bar.open = True               
+            e.page.controls[0].content.value = response
+            e.page.controls[0].open = True             
         
         self._dialog_add.open = False
         e.page.update()
@@ -119,7 +111,7 @@ class ToDo(UserControl):
             horizontal_alignment = 'end',
                 controls = [
                     Container(
-                        padding=15,
+                        padding=padding.only(right=15, bottom=25),
                         content = FloatingActionButton(
                             icon = icons.ADD,
                             on_click = self.task_click,
@@ -145,7 +137,6 @@ class ToDo(UserControl):
                     content = Stack(
                         controls = [
                             self._container,
-                            self._snack_bar,
                             _button
                         ]
                     )        

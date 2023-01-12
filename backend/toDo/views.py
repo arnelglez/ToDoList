@@ -70,10 +70,17 @@ class ToDoOperations(APIView):
         # Select user
         user = request.user
         # Search all objects of list by user
-        todo = get_object_or_404(user, id__iexact = id)
+        todo = get_object_or_404(ToDo, id__iexact = id)
         if todo.user == user:    
-            # serializes data entry
-            serializer = ToDoSerializer(todo, data=request.data)
+            
+            data = {
+                "task" : request.data['task'],
+                "description" : request.data['description'],
+                "user" : request.user.id
+            }       
+            
+            # serializes data entry 
+            serializer = ToDoSerializer(todo, data=data)
             # verify if entry is valid
             if(serializer.is_valid()):
                 # save entry               

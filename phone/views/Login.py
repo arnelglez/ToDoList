@@ -83,15 +83,7 @@ class Login(UserControl):
                     )
                 )
             )
-        
-        self._snack_bar = SnackBar(
-                bgcolor = colors.RED,
-                content = Text(
-                    value = "",
-                    color = colors.WHITE,
-                )        
-            )
-        
+                
         super().__init__()
         
     def login_click(self, e):
@@ -111,8 +103,8 @@ class Login(UserControl):
             # lista de tareas
             e.page.controls.append(ToDo(self.h, self.w, self.eLogin))
         else:
-            self._snack_bar.content.value = response
-            self._snack_bar.open = True
+            e.page.controls[0].content.value = response
+            e.page.controls[0].open = True
             self.update()
         
         # progress ring close
@@ -127,7 +119,6 @@ class Login(UserControl):
                     content = Stack(
                         controls = [
                             self._container,
-                            self._snack_bar
                         ]
                     )        
                 )   
