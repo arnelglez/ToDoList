@@ -42,7 +42,7 @@ class Login(TokenObtainPairView):
                 userSerializer = UserCustomSerializer(user)
                 response = {
                     "token": loginSerializer.validated_data.get('access'),
-                    "referesh": loginSerializer.validated_data.get('refresh'),
+                    "refresh": loginSerializer.validated_data.get('refresh'),
                     "user" : userSerializer.data
                 }
                 return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
