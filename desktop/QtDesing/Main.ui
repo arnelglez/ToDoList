@@ -61,6 +61,12 @@
    <property name="windowTitle">
     <string>Task</string>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
    <property name="floatable">
     <bool>false</bool>
    </property>
@@ -77,6 +83,12 @@
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
     <string>Users</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>

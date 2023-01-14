@@ -14,15 +14,7 @@ class Ui_NewTask(object):
         NewTask.setObjectName("NewTask")
         NewTask.resize(430, 270)
         NewTask.setMinimumSize(QtCore.QSize(430, 270))
-        NewTask.setMaximumSize(QtCore.QSize(430, 270))
-        
-        #########    Center Windows      #####
-        qr = Ui_NewTask.frameGeometry()
-        cp = QtGui.QGuiApplication.primaryScreen().availableGeometry().center()
-        qr.moveCenter(cp)
-        Ui_NewTask.move(qr.topLeft())
-        #######################################
-        
+        NewTask.setMaximumSize(QtCore.QSize(430, 270))        
         self.editTask = QtWidgets.QLineEdit(NewTask)
         self.editTask.setGeometry(QtCore.QRect(139, 40, 240, 27))
         self.editTask.setObjectName("editTask")
@@ -39,13 +31,13 @@ class Ui_NewTask(object):
         self.buttonAccept = QtWidgets.QPushButton(self.groupBox)
         self.buttonAccept.setGeometry(QtCore.QRect(110, 207, 88, 27))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../img/accept.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(self.generals.resource_path("../img/accept.png")), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.buttonAccept.setIcon(icon)
         self.buttonAccept.setObjectName("buttonAccept")
         self.buttonCancel = QtWidgets.QPushButton(self.groupBox)
         self.buttonCancel.setGeometry(QtCore.QRect(240, 207, 88, 27))
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../img/cancel.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap(self.generals.resource_path("../img/cancel.png")), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.buttonCancel.setIcon(icon1)
         self.buttonCancel.setObjectName("buttonCancel")
         self.editDescription = QtWidgets.QTextEdit(self.groupBox)

@@ -31,7 +31,7 @@ class Login(TokenObtainPairView):
         password = request.data.get('password')
         # verify user authentication
         user = authenticate(
-            username=username,
+            username=username.lower(),
             password=password
         )
         
@@ -95,7 +95,7 @@ class Register(APIView):
             userCreate = {
                             "password": make_password(password1),
                             "is_superuser": is_superuser,
-                            "username": username,
+                            "username": username.lower(),
                             "first_name": first_name,
                             "last_name": last_name,
                             "email": email,

@@ -38,7 +38,6 @@ class Login(UserControl):
                             color = colors.WHITE24,
                             border_color = colors.WHITE24,
                             border_radius = 10,
-                            value = 'aglez', #borrar
                         ),
                         TextField(
                             width = 250,
@@ -51,7 +50,6 @@ class Login(UserControl):
                             border_radius = 10,
                             password = True,
                             can_reveal_password=True,
-                            value = 'Pepe123++', #borrar
                         ),
                         ElevatedButton(
                             on_click = self.login_click,

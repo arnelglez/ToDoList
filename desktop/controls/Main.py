@@ -16,6 +16,7 @@ class Main(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         
+        self.generals = GeneralsFuntions()        
         
         self.setupUi(self)
 

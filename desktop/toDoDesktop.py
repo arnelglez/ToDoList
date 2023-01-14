@@ -8,7 +8,7 @@ from mod.modLogin import mLogin
 from controls.Main import *
 from views.Login import Ui_Login
 
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 
 class Login(QtWidgets.QMainWindow, Ui_Login):
 
@@ -21,7 +21,7 @@ class Login(QtWidgets.QMainWindow, Ui_Login):
         self.setupUi(self)
 
     def login(self):
-        user = self.editUsername.text().lower() 
+        user = self.editUsername.text()
         passwd = self.editPassword.text()
 
         response, config._eLogin = mLogin().login(user, passwd)
@@ -34,16 +34,19 @@ class Login(QtWidgets.QMainWindow, Ui_Login):
             self.editUsername.clear()
             self.editPassword.clear()
         else:
-    
-
             self.MainWindow = QtWidgets.QMainWindow()
             self.ui = Main()
             self.ui.setupUi(self.MainWindow) 
             self.MainWindow.show()
+            self.hide()
+            
+    def close_windows(self):
+        self.close()
                  
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    windows = Ui_Login()
+    windows = Login()
     windows.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
+    
